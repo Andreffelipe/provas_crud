@@ -1,7 +1,7 @@
-import { Response, Request } from "express";
-import { inject, injectable } from "tsyringe";
-import { IQuestionRepository } from "../../repository/IQuestionRepository";
-import { Question } from "../../models/Questions";
+import { Response, Request } from 'express';
+import { inject, injectable } from 'tsyringe';
+import { IQuestionRepository } from '../../repository/IQuestionRepository';
+import { Question } from '../../models/Questions';
 
 @injectable()
 export class CreateQuestion {
@@ -17,8 +17,9 @@ export class CreateQuestion {
     // }
     const newQuestion = new Question({
       utterance, question, answers, correct_answer, type
-    })
+
+    });
     await this.questionRepository.create(newQuestion);
-    return response.status(201).send()
+    return response.status(201).send();
   }
 }

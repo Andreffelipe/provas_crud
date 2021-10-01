@@ -1,8 +1,26 @@
 import { Question } from "../../models/Questions";
 import { IQuestionRepository } from "../IQuestionRepository";
 import QuestionModel from "../../db/questionModel";
+import { Types } from "mongoose";
+
+export type Params = {
+  utterance?: string
+  question?: string
+  answers?: string[]
+  correct_answer?: string
+  type?: string
+}
 
 export class QuestionRepository implements IQuestionRepository {
+  async find (ids: string[]): Promise<any> {
+    let question: Params[] = []
+    ids.forEach(async (element) => {
+      let result = await QuestionModel.findById({ _id: element }) as any;
+      question.push(result)
+    })
+    console.log(question)
+    return question
+  }
   async delete (id: string): Promise<void> {
     await QuestionModel.findByIdAndDelete({ _id: id })
   }

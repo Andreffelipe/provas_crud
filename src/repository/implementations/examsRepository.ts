@@ -3,8 +3,19 @@ import QuestionModel from "../../db/questionModel";
 import ExamModel from "../../db/examsModel";
 
 export class ExamsRepository implements IExamsRepository {
-  findRandom (): Promise<void> {
-    throw new Error("Method not implemented.");
+  async findExamCandidate (id: string): Promise<any> {
+    const exams = await ExamModel.findOne({ hash_id: id });
+    return exams;
+  }
+  async findRandom (type: string): Promise<void> {
+    QuestionModel.count().exec(function (err, count) {
+      let random = Math.floor(Math.random() * count)
+      QuestionModel.findOne().skip(random).exec(
+        function (err, result) {
+          if (err) throw new Error(err.message);
+          console.log(result)
+        })
+    })
   }
   async create (questions_ids: string[], hash_id: string): Promise<void> {
     const exam = new ExamModel({
